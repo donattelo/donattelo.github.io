@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=rE3KMdipllkiBzFe_iXmqnnHskYXYqW_EAS2bONye4T3YI-FCI6zHoqbCSC_mpzlQcYbOGYzSF5mxqIddMWCXIl5G9vvFpcgyyk0FsB3jBgKuil02NDTDQw_uz1jwGHipgefthxvwUt7IurtPKiQwIlHGRhiGIqWl_7DOrFszcZVtxwuxQs8tm_jPmCtDDSygSXUwpp1VGPh4NprQ8yEPH4Z0NIoDFqDN56WlrcV5YxKUEnfm_mIpkNvTfKNWOk5elSm9uGuhL7g7l5IIafDVlBhFREHTmqrADI6qec1zd3aGxKzTmjPTiRMJIb57kUY" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=AlmL-DRqj5w9SOv5esUicUilxO5Xr5XNjdwqjkWPLUeCqvg9T5DAV8MwQMXi7cIuV9CdNTcDlB7UEfjpjA8r7A-YmU1iz2YegE0p8NC897Cn2YMc-uKqm_BYAcdRThVwABTazcvGa8Zc-MdjZvfScTcU6Y_eev5FfXyz6oN3cEz9Qs5JJK4rPjnKuKQm01PLXdkCCSTZp0COB-JxQ1DcbEgdLu1xLqSBacXYn0gDa8kkbubIpqV1fCjc2AqddHd7JAVbUE99qwEIycLr0BdZjgIqQiXEYB9vwI9mW75mC09z_S3uHJUVqJq7-jm0o7h8EPGVFJPo7_7yX2A--VEy6g" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=2IGiujai0FOv8GQ0KD13iHiZbtORiI6zcvckTW2Q3M7E59S-QQkjLpNnhgeA_lWeQZmGAil_jGccPp-YvMpaTGP7U52tcoRD6qKWjSUwQKjQ-tMS4ZDQhfbGy3H9dTredfEj1IkgUSoBzKC5aHTZnH1Gs8s0awn0wjuMQZbECEDYi7UQAM61z888ZYq8DyA3PGhwt4KOVfH_eb070bWiVligaoW2q3HH1KrWkD2xbhoQrZcnL1owVccLvEcaJm_ZFfDOmBpwuJPwuoIamq4eaHBnk9EHZcIloVjaseXCERRx0SXHSeGA1BaFBotCLsXD" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=AlmL-DRqj5w9SOv5esUicUilxO5Xr5XNjdwqjkWPLUeCqvg9T5DAV8MwQMXi7cIuV9CdNTcDlB7UEfjpjA8r7A-YmU1iz2YegE0p8NC897Cn2YMc-uKqm_BYAcdRThVwABTazcvGa8Zc-MdjZvfScTcU6Y_eev5FfXyz6oN3cEz9Qs5JJK4rPjnKuKQm01PLXdkCCSTZp0COB-JxQ1DcbEgdLu1xLqSBacXYn0gDa8kkbubIpqV1fCjc2AqddHd7JAVbUE99qwEIycLr0BdZjgIqQiXEYB9vwI9mW75mC09z_S3uHJUVqJq7-jm0o7h8EPGVFJPo7_7yX2A--VEy6g" charset="UTF-8"></script><style>
     :root {
       --primary: #0070d1;
       --primary-hover: #005bb5;
@@ -518,9 +518,22 @@
       const catVal = categoryFilter.value;
       const sortVal = sortFilter.value;
 
+      function hasBothConsoles(name) {
+        if (!name) return false;
+        const upper = name.toUpperCase();
+        return upper.includes('PS4/PS5') || 
+               upper.includes('PS4/SP5') || 
+               upper.includes('PS5/PS4') || 
+               upper.includes('PS4 E PS5') || 
+               upper.includes('PS4 PS5') || 
+               (upper.includes('PS4') && upper.includes('PS5')) ||
+               (upper.includes('PS4') && upper.includes('SP5'));
+      }
+
       let filtered = games.filter(g => {
         const matchesQuery = g.nome.toLowerCase().includes(q) || g.categoria.toLowerCase().includes(q);
-        const matchesConsole = !consoleVal || g.console === consoleVal;
+        const isDual = hasBothConsoles(g.nome);
+        const matchesConsole = !consoleVal || (isDual ? (consoleVal === 'PS4' || consoleVal === 'PS5') : g.console === consoleVal);
         const matchesCat = !catVal || g.categoria === catVal;
         return matchesQuery && matchesConsole && matchesCat;
       });
@@ -552,7 +565,7 @@
         <div class="game-card" onclick="openModal('${g.id}')">
           <div class="img-wrapper">
             <div class="badges">
-              <span class="badge ${g.console.toLowerCase()}">${g.console}</span>
+              <span class="badge ${hasBothConsoles(g.nome) ? 'ps5' : g.console.toLowerCase()}">${hasBothConsoles(g.nome) ? 'PS4 / PS5' : g.console}</span>
               <span class="badge cat">${g.categoria}</span>
             </div>
             ${g.imagem ? `<img src="${g.imagem}" alt="${g.nome}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\'no-img\'>Sem Imagem</span>'">` : '<span class="no-img">Sem Imagem</span>'}
@@ -582,7 +595,7 @@
 
       const meta = document.getElementById('modalMeta');
       meta.innerHTML = `
-        <span style="background: #0070d1; color: white;">${game.console}</span>
+        <span style="background: #0070d1; color: white;">${hasBothConsoles(game.nome) ? 'PS4 / PS5' : game.console}</span>
         <span>Categoria: ${game.categoria}</span>
         <span>Estoque: ${game.estoque}</span>
       `;
