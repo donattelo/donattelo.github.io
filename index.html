@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=3O8dxS6Smuwl8BlIHNL2CDhpduQJAgPZKN0TeH7FXV7EuP7DPB6c2j-HKuUchDf_ZVU1Zd5man1rju6s-56VKRwmMvDENfmRfqMi77TVOUr_4jp9aBGqFod873ZiNe9TbREOMDHuJhanf4ffNsoU7TXhNXb1Tx_DwLRXvwXo3t_vtkR0SNIdLuunE-Z5zlgKQNhOanBYwWHOGIqJYSEMJXcRCrHsFCHF19UawHvC74i49L7i9z5rCQvjLsGaOa5S3hKSu_zkz0e6tbjAsdjXiyPwAHVY6c98nvTqzLfeimo3H62xDayIEGVp9YY9rz-3" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=s5d5hCEqEsLddhRdFE81P8qDF1QsjJmnYsrPuwn3M4BGzJO0wWRVbmi_t8pn468n4ezXAk0ldMxdM70PmI-XFLtlxxjNzLYsJTVZTRsuihew8w6yxx8O0hK-lxyv9XT40DGnU8YUVfIeTF3q-RVXHdGHRndXWZ7ikYtQ4Qg_Pr2UbIrloluN2PcIS9jOr0oA9yrK7vEH27NwuBSgwf3R6-VjYuxbK_tqNqRGtI62lXpmoYxtrkwVQugEox5x1GgYKCR4_RlUhRBT1p8afsawbiRHLe3DwNvJHBQYjZXPq8hIqf_sN6IZGoa6e5zPuE71" charset="UTF-8"></script><style>
     :root {
       --primary: #0070d1;
       --primary-hover: #005bb5;
@@ -512,23 +512,23 @@
       categoryFilter.appendChild(opt);
     });
 
+    function hasBothConsoles(name) {
+      if (!name) return false;
+      const upper = name.toUpperCase();
+      return upper.includes('PS4/PS5') || 
+             upper.includes('PS4/SP5') || 
+             upper.includes('PS5/PS4') || 
+             upper.includes('PS4 E PS5') || 
+             upper.includes('PS4 PS5') || 
+             (upper.includes('PS4') && upper.includes('PS5')) ||
+             (upper.includes('PS4') && upper.includes('SP5'));
+    }
+
     function renderGames() {
       const q = searchInput.value.toLowerCase().trim();
       const consoleVal = consoleFilter.value;
       const catVal = categoryFilter.value;
       const sortVal = sortFilter.value;
-
-      function hasBothConsoles(name) {
-        if (!name) return false;
-        const upper = name.toUpperCase();
-        return upper.includes('PS4/PS5') || 
-               upper.includes('PS4/SP5') || 
-               upper.includes('PS5/PS4') || 
-               upper.includes('PS4 E PS5') || 
-               upper.includes('PS4 PS5') || 
-               (upper.includes('PS4') && upper.includes('PS5')) ||
-               (upper.includes('PS4') && upper.includes('SP5'));
-      }
 
       let filtered = games.filter(g => {
         const matchesQuery = g.nome.toLowerCase().includes(q) || g.categoria.toLowerCase().includes(q);
